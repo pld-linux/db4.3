@@ -17,7 +17,6 @@ Group:		Libraries
 #Source0Download: http://www.sleepycat.com/download/
 Source0:	http://www.sleepycat.com/update/snapshot/db-%{version}.tar.gz
 # Source0-md5:	014950aaadd531f6f9064c81a2018423
-Patch0:		db-so-suffix.patch
 URL:		http://www.sleepycat.com/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -223,8 +222,7 @@ Ten pakiet zawiera narzêdzia do obs³ugi baz Berkeley DB z linii
 poleceñ.
 
 %prep
-%setup -q
-%patch0 -p1
+%setup -q -n db-%{version}
 
 %build
 cd dist
@@ -295,33 +293,33 @@ install -d $RPM_BUILD_ROOT%{_javadir}
 	LIB_INSTALL_FILE_LIST=""
 
 cd $RPM_BUILD_ROOT%{_libdir}
-ln -sf libdb-4.2.so libdb.so
-ln -sf libdb-4.2.so libdb4.so
-ln -sf libdb-4.2.so libdb-4.so
-ln -sf libdb-4.2.so libndbm.so
-ln -sf libdb-4.2.la libdb.la
-ln -sf libdb-4.2.la libdb4.la
-ln -sf libdb-4.2.la libndbm.la
+ln -sf libdb-4.3.so libdb.so
+ln -sf libdb-4.3.so libdb4.so
+ln -sf libdb-4.3.so libdb-4.so
+ln -sf libdb-4.3.so libndbm.so
+ln -sf libdb-4.3.la libdb.la
+ln -sf libdb-4.3.la libdb4.la
+ln -sf libdb-4.3.la libndbm.la
 %if %{with java}
-ln -sf libdb_java-4.2.la libdb_java.la
+ln -sf libdb_java-4.3.la libdb_java.la
 mv -f *.jar $RPM_BUILD_ROOT%{_javadir}
 %endif
 %if %{with tcl}
-ln -sf libdb_tcl-4.2.so libdb_tcl.so
-ln -sf libdb_tcl-4.2.la libdb_tcl.la
+ln -sf libdb_tcl-4.3.so libdb_tcl.so
+ln -sf libdb_tcl-4.3.la libdb_tcl.la
 %endif
-ln -sf libdb_cxx-4.2.la libdb_cxx.la
-mv -f libdb.a libdb-4.2.a
-ln -sf libdb-4.2.a libdb.a
-ln -sf libdb-4.2.a libdb4.a
-ln -sf libdb-4.2.a libndbm.a
-mv -f libdb_cxx.a libdb_cxx-4.2.a
-ln -sf libdb_cxx-4.2.a libdb_cxx.a
-ln -sf libdb_cxx-4.2.so libdb_cxx.so
-ln -sf libdb_cxx-4.2.so libdb_cxx-4.so
+ln -sf libdb_cxx-4.3.la libdb_cxx.la
+mv -f libdb.a libdb-4.3.a
+ln -sf libdb-4.3.a libdb.a
+ln -sf libdb-4.3.a libdb4.a
+ln -sf libdb-4.3.a libndbm.a
+mv -f libdb_cxx.a libdb_cxx-4.3.a
+ln -sf libdb_cxx-4.3.a libdb_cxx.a
+ln -sf libdb_cxx-4.3.so libdb_cxx.so
+ln -sf libdb_cxx-4.3.so libdb_cxx-4.so
 
-sed -i "s/old_library=''/old_library='libdb-4.2.a'/" libdb-4.2.la
-sed -i "s/old_library=''/old_library='libdb_cxx-4.2.a'/" libdb_cxx-4.2.la
+sed -i "s/old_library=''/old_library='libdb-4.3.a'/" libdb-4.3.la
+sed -i "s/old_library=''/old_library='libdb_cxx-4.3.a'/" libdb_cxx-4.3.la
 
 cd -
 rm -f examples_c*/tags
@@ -351,14 +349,14 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc LICENSE README
-%attr(755,root,root) %{_libdir}/libdb-4.2.so
+%attr(755,root,root) %{_libdir}/libdb-4.3.so
 %dir %{_docdir}/db-%{version}-docs
 %{_docdir}/db-%{version}-docs/sleepycat
 %{_docdir}/db-%{version}-docs/index.html
 
 %files devel
 %defattr(644,root,root,755)
-%{_libdir}/libdb-4.2.la
+%{_libdir}/libdb-4.3.la
 %{_libdir}/libdb-4.so
 %{_libdir}/libdb.la
 %{_libdir}/libdb.so
@@ -375,19 +373,19 @@ rm -rf $RPM_BUILD_ROOT
 
 %files static
 %defattr(644,root,root,755)
-%{_libdir}/libdb-4.2.a
+%{_libdir}/libdb-4.3.a
 %{_libdir}/libdb4.a
 %{_libdir}/libdb.a
 %{_libdir}/libndbm.a
 
 %files cxx
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libdb_cxx-4.2.so
+%attr(755,root,root) %{_libdir}/libdb_cxx-4.3.so
 
 %files cxx-devel
 %defattr(644,root,root,755)
 %{_includedir}/db_cxx.h
-%{_libdir}/libdb_cxx-4.2.la
+%{_libdir}/libdb_cxx-4.3.la
 %{_libdir}/libdb_cxx-4.so
 %{_libdir}/libdb_cxx.la
 %{_libdir}/libdb_cxx.so
@@ -396,7 +394,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files cxx-static
 %defattr(644,root,root,755)
-%{_libdir}/libdb_cxx-4.2.a
+%{_libdir}/libdb_cxx-4.3.a
 %{_libdir}/libdb_cxx.a
 
 %if %{with java}
@@ -407,7 +405,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files java-devel
 %defattr(644,root,root,755)
-%{_libdir}/libdb_java-4.2.la
+%{_libdir}/libdb_java-4.3.la
 %{_libdir}/libdb_java.la
 %{_libdir}/libdb_java.so
 %{_docdir}/db-%{version}-docs/java
@@ -417,11 +415,11 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with tcl}
 %files tcl
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libdb_tcl-4.2.so
+%attr(755,root,root) %{_libdir}/libdb_tcl-4.3.so
 
 %files tcl-devel
 %defattr(644,root,root,755)
-%{_libdir}/libdb_tcl-4.2.la
+%{_libdir}/libdb_tcl-4.3.la
 %{_libdir}/libdb_tcl.la
 %{_libdir}/libdb_tcl.so
 %{_docdir}/db-%{version}-docs/api_tcl
