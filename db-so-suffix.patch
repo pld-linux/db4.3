@@ -1,0 +1,12 @@
+diff -urN db-4.2.52/dist/aclocal/sosuffix.ac db-4.2.52.org/dist/aclocal/sosuffix.ac
+--- db-4.2.52/dist/aclocal/sosuffix.ac	2003-04-19 07:11:55.000000000 +0200
++++ db-4.2.52.org/dist/aclocal/sosuffix.ac	2004-05-04 23:26:28.000000000 +0200
+@@ -18,7 +18,7 @@
+ 	versuffix=""
+ 	release=""
+ 	libname=libfoo
+-	eval _SOSUFFIX=\"$shrext\"
++	eval _SOSUFFIX=\"$shrext_cmds\"
+ 	if test "X$_SOSUFFIX" = "" ; then
+ 		_SOSUFFIX=".so"
+ 		if test `$LIBTOOL_PROG --config | grep build_libtool_libs | grep no` 2>/dev/null; then
