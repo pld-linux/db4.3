@@ -9,14 +9,14 @@
 Summary:	Berkeley DB database library for C
 Summary(pl):	Biblioteka C do obs³ugi baz Berkeley DB
 Name:		db4.3
-Version:	4.3.21
+Version:	4.3.27
 Release:	0.1
 License:	Sleepycat public license (GPL-like, see LICENSE)
 Group:		Libraries
 # alternative site (sometimes working): http://www.berkeleydb.com/
 #Source0Download: http://www.sleepycat.com/download/
-Source0:	http://www.sleepycat.com/update/snapshot/db-%{version}.tar.gz
-# Source0-md5:	014950aaadd531f6f9064c81a2018423
+Source0:	ftp://ftp.sleepycat.com/releases/db-%{version}.tar.gz
+# Source0-md5:	fcc481d52c3b80e20a328f8c0cb042bd
 URL:		http://www.sleepycat.com/
 BuildRequires:	autoconf
 BuildRequires:	automake
