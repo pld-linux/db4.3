@@ -27,7 +27,7 @@ BuildRequires:	libstdc++-devel
 BuildRequires:	sed >= 4.0
 %{?with_tcl:BuildRequires:	tcl-devel >= 8.4.0}
 Obsoletes:	db4
-BuildRoot:	%{tmpdir}/db-%{version}-root-%(id -u -n)
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 The Berkeley Database (Berkeley DB) is a programmatic toolkit that
