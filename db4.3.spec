@@ -45,7 +45,7 @@ Pythonie i Perlu.
 Summary:	Header files for Berkeley database library
 Summary(pl):	Pliki nag³ówkowe do biblioteki Berkeley Database
 Group:		Development/Libraries
-Requires:	db = %{epoch}:%{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 Obsoletes:	db3-devel
 Obsoletes:	db4-devel
 
@@ -75,7 +75,7 @@ programów u¿ywaj±cych Berkeley DB.
 Summary:	Static libraries for Berkeley database library
 Summary(pl):	Statyczne biblioteki Berkeley Database
 Group:		Development/Libraries
-Requires:	db-devel = %{epoch}:%{version}-%{release}
+Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
 Obsoletes:	db3-static
 Obsoletes:	db4-static
 
@@ -117,8 +117,8 @@ Biblioteka baz danych Berkeley dla C++.
 Summary:	Header files for db-cxx library
 Summary(pl):	Pliki nag³ówkowe biblioteki db-cxx
 Group:		Development/Libraries
-Requires:	db-cxx = %{epoch}:%{version}-%{release}
-Requires:	db-devel = %{epoch}:%{version}-%{release}
+Requires:	%{name}-cxx = %{epoch}:%{version}-%{release}
+Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
 Conflicts:	db-devel < 4.1.25-3
 
 %description cxx-devel
@@ -131,7 +131,7 @@ Pliki nag³ówkowe biblioteki db-cxx.
 Summary:	Static version of db-cxx library
 Summary(pl):	Statyczna wersja biblioteki db-cxx
 Group:		Development/Libraries
-Requires:	db-cxx-devel = %{epoch}:%{version}-%{release}
+Requires:	%{name}-cxx-devel = %{epoch}:%{version}-%{release}
 Conflicts:	db-static < 4.2.50-1
 
 %description cxx-static
@@ -156,7 +156,7 @@ Biblioteka baz danych Berkeley dla Javy.
 Summary:	Development files for db-java library
 Summary(pl):	Pliki programistyczne biblioteki db-java
 Group:		Development/Languages/Java
-Requires:	db-java = %{epoch}:%{version}-%{release}
+Requires:	%{name}-java = %{epoch}:%{version}-%{release}
 Conflicts:	db-devel < 4.1.25-3
 
 %description java-devel
@@ -182,8 +182,7 @@ Biblioteka baz danych Berkeley dla Tcl.
 Summary:	Development files for db-tcl library
 Summary(pl):	Pliki programistyczne biblioteki db-tcl
 Group:		Development/Languages/Tcl
-Requires:	tcl
-Requires:	db-tcl = %{epoch}:%{version}-%{release}
+Requires:	%{name}-tcl = %{epoch}:%{version}-%{release}
 Conflicts:	db-devel < 4.1.25-3
 
 %description tcl-devel
@@ -196,7 +195,7 @@ Pliki programistyczne biblioteki db-tcl.
 Summary:	Command line tools for managing Berkeley DB databases
 Summary(pl):	Narzêdzia do obs³ugi baz Berkeley DB z linii poleceñ
 Group:		Applications/Databases
-Requires:	db = %{epoch}:%{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 Obsoletes:	db4-utils
 
 %description utils
@@ -400,7 +399,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with java}
 %files java
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libdb_java*.so
+%attr(755,root,root) %{_libdir}/libdb_java-4.3.so
 %{_javadir}/db.jar
 
 %files java-devel
