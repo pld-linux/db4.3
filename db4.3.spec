@@ -14,7 +14,7 @@ Release:	0.1
 License:	Sleepycat public license (GPL-like, see LICENSE)
 Group:		Libraries
 # alternative site (sometimes working): http://www.berkeleydb.com/
-#Source0Download: http://www.sleepycat.com/download/
+#Source0Download: http://www.sleepycat.com/download/db/
 Source0:	ftp://ftp.sleepycat.com/releases/db-%{version}.tar.gz
 # Source0-md5:	fcc481d52c3b80e20a328f8c0cb042bd
 URL:		http://www.sleepycat.com/
