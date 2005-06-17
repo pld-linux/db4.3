@@ -4,6 +4,7 @@
 %bcond_without	tcl	# don't build Tcl bindings
 %bcond_with	pmutex	# use POSIX mutexes (only process-private with linuxthreads)
 %bcond_with	nptl	# synonym for pmutex (NPTL provides full interface)
+%bcond_without	static_libs	# don't build static libraries
 #
 %{?with_nptl:%define	with_pmutex	1}
 Summary:	Berkeley DB database library for C
@@ -260,7 +261,8 @@ export CC CXX CFLAGS CXXFLAGS LDFLAGS
 	--enable-static \
 	--enable-rpc \
 	--%{?with_pmutex:en}%{!?with_pmutex:dis}able-posixmutexes \
-	--enable-cxx
+	--enable-cxx \
+	%{!?with_static_libs:--disable-static}
 
 # (temporarily?) disabled because of compilation errors:
 #	--enable-dump185 \
@@ -280,7 +282,8 @@ cd ../build_unix
 	%{?with_tcl:--with-tcl=/usr/lib} \
 	%{?with_java:--enable-java} \
 	--disable-static \
-	--enable-shared 
+	--enable-shared \
+	%{!?with_static_libs:--disable-static}
 
 %{__make} library_build \
 	TCFLAGS='-I$(builddir) -I%{_includedir}' \
@@ -320,12 +323,14 @@ ln -sf libdb_tcl-4.3.so libdb_tcl.so
 ln -sf libdb_tcl-4.3.la libdb_tcl.la
 %endif
 ln -sf libdb_cxx-4.3.la libdb_cxx.la
+%if %{with static_libs}
 mv -f libdb.a libdb-4.3.a
 ln -sf libdb-4.3.a libdb.a
 ln -sf libdb-4.3.a libdb4.a
 ln -sf libdb-4.3.a libndbm.a
 mv -f libdb_cxx.a libdb_cxx-4.3.a
 ln -sf libdb_cxx-4.3.a libdb_cxx.a
+%endif
 ln -sf libdb_cxx-4.3.so libdb_cxx.so
 ln -sf libdb_cxx-4.3.so libdb_cxx-4.so
 
@@ -382,12 +387,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_docdir}/db-%{version}-docs/ref
 %{_examplesdir}/db-%{version}
 
+%if %{with static_libs}
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/libdb-4.3.a
 %{_libdir}/libdb4.a
 %{_libdir}/libdb.a
 %{_libdir}/libndbm.a
+%endif
 
 %files cxx
 %defattr(644,root,root,755)
@@ -403,10 +410,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_docdir}/db-%{version}-docs/api_cxx
 %{_examplesdir}/db-cxx-%{version}
 
+%if %{with static_libs}
 %files cxx-static
 %defattr(644,root,root,755)
 %{_libdir}/libdb_cxx-4.3.a
 %{_libdir}/libdb_cxx.a
+%endif
 
 %if %{with java}
 %files java
