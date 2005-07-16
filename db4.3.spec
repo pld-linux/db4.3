@@ -3,22 +3,22 @@
 %bcond_with	java	# build db-java (required for openoffice)
 %bcond_without	tcl	# don't build Tcl bindings
 %bcond_with	pmutex	# use POSIX mutexes (only process-private with linuxthreads)
-%bcond_with	nptl	# synonym for pmutex (NPTL provides full interface)
+%bcond_with	nptl	# use process-shared POSIX mutexes (NPTL provides full interface)
 %bcond_without	static_libs	# don't build static libraries
 #
 %{?with_nptl:%define	with_pmutex	1}
 Summary:	Berkeley DB database library for C
 Summary(pl):	Biblioteka C do obs³ugi baz Berkeley DB
 Name:		db4.3
-Version:	4.3.27
-Release:	2
+Version:	4.3.28
+Release:	1
 Epoch:		0
 License:	Sleepycat public license (GPL-like, see LICENSE)
 Group:		Libraries
 # alternative site (sometimes working): http://www.berkeleydb.com/
 #Source0Download: http://www.sleepycat.com/download/db/
 Source0:	ftp://ftp.sleepycat.com/releases/db-%{version}.tar.gz
-# Source0-md5:	fcc481d52c3b80e20a328f8c0cb042bd
+# Source0-md5:	e27759537db6054b31d8cb3e99ba6fbb
 URL:		http://www.sleepycat.com/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -236,11 +236,15 @@ poleceñ.
 %prep
 %setup -q -n db-%{version}
 
+%if %{without nptl}
+sed -i -e 's,AM_PTHREADS_SHARED("POSIX/.*,:,' dist/aclocal/mutex.ac
+%endif
+
 %build
 cd dist
-cp -f %{_datadir}/aclocal/libtool.m4 aclocal/libtool.ac
-cp -f %{_datadir}/automake/config.sub .
-cp -f %{_datadir}/libtool/ltmain.sh .
+cp -f /usr/share/aclocal/libtool.m4 aclocal/libtool.ac
+cp -f /usr/share/automake/config.sub .
+cp -f /usr/share/libtool/ltmain.sh .
 sh s_config
 cd ..
 
@@ -292,7 +296,7 @@ cd ../build_unix
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_includedir},%{_libdir},%{_bindir}}
+install -d $RPM_BUILD_ROOT{%{_includedir},%{_libdir},%{_bindir},/%{_lib}}
 %if %{with java}
 install -d $RPM_BUILD_ROOT%{_javadir}
 %endif
@@ -306,17 +310,19 @@ install -d $RPM_BUILD_ROOT%{_javadir}
 	DESTDIR=$RPM_BUILD_ROOT \
 	LIB_INSTALL_FILE_LIST=""
 
+mv $RPM_BUILD_ROOT%{_libdir}/libdb-4.3.so $RPM_BUILD_ROOT/%{_lib}
+
 cd $RPM_BUILD_ROOT%{_libdir}
-ln -sf libdb-4.3.so libdb.so
-ln -sf libdb-4.3.so libdb4.so
-ln -sf libdb-4.3.so libdb-4.so
-ln -sf libdb-4.3.so libndbm.so
+ln -sf /%{_lib}/libdb-4.3.so libdb.so
+ln -sf /%{_lib}/libdb-4.3.so libdb4.so
+ln -sf /%{_lib}/libdb-4.3.so libdb-4.so
+ln -sf /%{_lib}/libdb-4.3.so libndbm.so
 ln -sf libdb-4.3.la libdb.la
 ln -sf libdb-4.3.la libdb4.la
 ln -sf libdb-4.3.la libndbm.la
 %if %{with java}
 ln -sf libdb_java-4.3.la libdb_java.la
-mv -f *.jar $RPM_BUILD_ROOT%{_javadir}
+mv -f $RPM_BUILD_ROOT%{_libdir}/*.jar $RPM_BUILD_ROOT%{_javadir}
 %endif
 %if %{with tcl}
 ln -sf libdb_tcl-4.3.so libdb_tcl.so
@@ -365,7 +371,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc LICENSE README
-%attr(755,root,root) %{_libdir}/libdb-4.3.so
+%attr(755,root,root) /%{_lib}/libdb-4.3.so
 %dir %{_docdir}/db-%{version}-docs
 %{_docdir}/db-%{version}-docs/sleepycat
 %{_docdir}/db-%{version}-docs/index.html
@@ -383,6 +389,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/db.h
 %{_includedir}/db_185.h
 %{_docdir}/db-%{version}-docs/api_c
+%dir %{_docdir}/db-%{version}-docs/gsg
+%{_docdir}/db-%{version}-docs/gsg/C
 %{_docdir}/db-%{version}-docs/images
 %{_docdir}/db-%{version}-docs/ref
 %{_examplesdir}/db-%{version}
@@ -408,6 +416,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libdb_cxx.la
 %{_libdir}/libdb_cxx.so
 %{_docdir}/db-%{version}-docs/api_cxx
+%{_docdir}/db-%{version}-docs/gsg/CXX
 %{_examplesdir}/db-cxx-%{version}
 
 %if %{with static_libs}
@@ -428,6 +437,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libdb_java-4.3.la
 %{_libdir}/libdb_java.la
 %{_libdir}/libdb_java.so
+%{_docdir}/db-%{version}-docs/collections
+%{_docdir}/db-%{version}-docs/gsg/JAVA
 %{_docdir}/db-%{version}-docs/java
 %{_examplesdir}/db-java-%{version}
 %endif
