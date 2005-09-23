@@ -3,7 +3,7 @@
 %bcond_with	java	# build db-java (required for openoffice)
 %bcond_without	tcl	# don't build Tcl bindings
 %bcond_with	pmutex	# use POSIX mutexes (only process-private with linuxthreads)
-%bcond_with	nptl	# use process-shared POSIX mutexes (NPTL provides full interface)
+%bcond_without	nptl	# don't use process-shared POSIX mutexes (NPTL provides full interface)
 %bcond_without	static_libs	# don't build static libraries
 #
 %{?with_nptl:%define	with_pmutex	1}
