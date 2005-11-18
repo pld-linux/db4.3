@@ -1,6 +1,6 @@
 #
 # Conditional build:
-%bcond_with	java	# build db-java (required for openoffice)
+%bcond_with	java	# build db-java
 %bcond_without	tcl	# don't build Tcl bindings
 %bcond_with	pmutex	# use POSIX mutexes (only process-private with linuxthreads)
 %bcond_without	nptl	# don't use process-shared POSIX mutexes (NPTL provides full interface)
@@ -10,15 +10,15 @@
 Summary:	Berkeley DB database library for C
 Summary(pl):	Biblioteka C do obs³ugi baz Berkeley DB
 Name:		db4.3
-Version:	4.3.28
+Version:	4.3.29
 Release:	1
 Epoch:		0
 License:	Sleepycat public license (GPL-like, see LICENSE)
 Group:		Libraries
 # alternative site (sometimes working): http://www.berkeleydb.com/
-#Source0Download: http://www.sleepycat.com/download/db/
-Source0:	ftp://ftp.sleepycat.com/releases/db-%{version}.tar.gz
-# Source0-md5:	e27759537db6054b31d8cb3e99ba6fbb
+#Source0Download: http://dev.sleepycat.com/downloads/releasehistorybdb.html
+Source0:	http://downloads.sleepycat.com/db-%{version}.tar.gz
+# Source0-md5:	13585a20ce32f113b8e8cdb57f52e3bb
 URL:		http://www.sleepycat.com/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -315,7 +315,7 @@ mv $RPM_BUILD_ROOT%{_libdir}/libdb-4.3.so $RPM_BUILD_ROOT/%{_lib}
 cd $RPM_BUILD_ROOT%{_libdir}
 ln -sf /%{_lib}/libdb-4.3.so libdb.so
 ln -sf /%{_lib}/libdb-4.3.so libdb4.so
-ln -sf /%{_lib}/libdb-4.3.so libdb-4.so
+ln -sf /%{_lib}/libdb-4.3.so libdb-4.3.so
 ln -sf /%{_lib}/libdb-4.3.so libndbm.so
 ln -sf libdb-4.3.la libdb.la
 ln -sf libdb-4.3.la libdb4.la
@@ -338,7 +338,6 @@ mv -f libdb_cxx.a libdb_cxx-4.3.a
 ln -sf libdb_cxx-4.3.a libdb_cxx.a
 %endif
 ln -sf libdb_cxx-4.3.so libdb_cxx.so
-ln -sf libdb_cxx-4.3.so libdb_cxx-4.so
 
 sed -i "s/old_library=''/old_library='libdb-4.3.a'/" libdb-4.3.la
 sed -i "s/old_library=''/old_library='libdb_cxx-4.3.a'/" libdb_cxx-4.3.la
@@ -378,14 +377,14 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libdb-4.3.so
+%attr(755,root,root) %{_libdir}/libdb4.so
+%attr(755,root,root) %{_libdir}/libdb.so
+%attr(755,root,root) %{_libdir}/libndbm.so
 %{_libdir}/libdb-4.3.la
-%{_libdir}/libdb-4.so
-%{_libdir}/libdb.la
-%{_libdir}/libdb.so
 %{_libdir}/libdb4.la
-%{_libdir}/libdb4.so
+%{_libdir}/libdb.la
 %{_libdir}/libndbm.la
-%{_libdir}/libndbm.so
 %{_includedir}/db.h
 %{_includedir}/db_185.h
 %{_docdir}/db-%{version}-docs/api_c
@@ -410,11 +409,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files cxx-devel
 %defattr(644,root,root,755)
-%{_includedir}/db_cxx.h
+%attr(755,root,root) %{_libdir}/libdb_cxx.so
 %{_libdir}/libdb_cxx-4.3.la
-%{_libdir}/libdb_cxx-4.so
 %{_libdir}/libdb_cxx.la
-%{_libdir}/libdb_cxx.so
+%{_includedir}/db_cxx.h
 %{_docdir}/db-%{version}-docs/api_cxx
 %{_docdir}/db-%{version}-docs/gsg/CXX
 %{_examplesdir}/db-cxx-%{version}
@@ -434,9 +432,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %files java-devel
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libdb_java.so
 %{_libdir}/libdb_java-4.3.la
 %{_libdir}/libdb_java.la
-%{_libdir}/libdb_java.so
 %{_docdir}/db-%{version}-docs/collections
 %{_docdir}/db-%{version}-docs/gsg/JAVA
 %{_docdir}/db-%{version}-docs/java
@@ -450,9 +448,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %files tcl-devel
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libdb_tcl.so
 %{_libdir}/libdb_tcl-4.3.la
 %{_libdir}/libdb_tcl.la
-%{_libdir}/libdb_tcl.so
 %{_docdir}/db-%{version}-docs/api_tcl
 %endif
 
