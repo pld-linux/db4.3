@@ -24,8 +24,8 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	ed
 %{?with_java:BuildRequires:	jdk}
-BuildRequires:	libtool
 BuildRequires:	libstdc++-devel
+BuildRequires:	libtool
 BuildRequires:	sed >= 4.0
 %{?with_tcl:BuildRequires:	tcl-devel >= 8.4.0}
 Provides:	db = %{version}-%{release}
