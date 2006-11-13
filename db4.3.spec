@@ -236,7 +236,7 @@ poleceñ.
 %prep
 %setup -q -n db-%{version}
 
-%if %{without nptl}
+%if !%{with nptl}
 sed -i -e 's,AM_PTHREADS_SHARED("POSIX/.*,:,' dist/aclocal/mutex.ac
 %endif
 
