@@ -22,6 +22,7 @@ Source0:	http://downloads.sleepycat.com/db-%{version}.tar.gz
 URL:		http://www.sleepycat.com/
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	cpp
 BuildRequires:	ed
 %{?with_java:BuildRequires:	jdk}
 BuildRequires:	libstdc++-devel
