@@ -1,32 +1,35 @@
 #
 # Conditional build:
-%bcond_with	java	# build db-java
-%bcond_without	tcl	# don't build Tcl bindings
-%bcond_with	pmutex	# use POSIX mutexes (only process-private with linuxthreads)
-%bcond_without	nptl	# don't use process-shared POSIX mutexes (NPTL provides full interface)
+%bcond_without	java		# don't build Java library
+%bcond_without	tcl		# don't build Tcl bindings
+%bcond_with	pmutex		# use POSIX mutexes (only process-private with linuxthreads)
+%bcond_without	nptl		# don't use process-shared POSIX mutexes (NPTL provides full interface)
 %bcond_without	static_libs	# don't build static libraries
 #
+%define		ver		4.3.29
+%define		patchlevel	1
 %{?with_nptl:%define	with_pmutex	1}
 Summary:	Berkeley DB database library for C
 Summary(pl.UTF-8):	Biblioteka C do obsługi baz Berkeley DB
 Name:		db4.3
-Version:	4.3.29
+Version:	%{ver}.%{patchlevel}
 Release:	1
 Epoch:		0
 License:	Sleepycat public license (GPL-like, see LICENSE)
 Group:		Libraries
 # alternative site (sometimes working): http://www.berkeleydb.com/
-#Source0Download: http://dev.sleepycat.com/downloads/releasehistorybdb.html
-Source0:	http://downloads.sleepycat.com/db-%{version}.tar.gz
+#Source0Download: http://www.oracle.com/technetwork/database/berkeleydb/downloads/index-082944.html
+Source0:	http://download.oracle.com/berkeley-db/db-%{ver}.tar.gz
 # Source0-md5:	13585a20ce32f113b8e8cdb57f52e3bb
-URL:		http://www.sleepycat.com/
+%patchset_source -f http://download.oracle.com/berkeley-db/patches/db/%{ver}/patch.%{ver}.%g 1 %{patchlevel}
+URL:		http://www.oracle.com/technetwork/database/berkeleydb/downloads/index.html
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	cpp
 BuildRequires:	ed
 %{?with_java:BuildRequires:	jdk}
 BuildRequires:	libstdc++-devel
-BuildRequires:	libtool
+BuildRequires:	libtool >= 2:2.2
 BuildRequires:	sed >= 4.0
 %{?with_tcl:BuildRequires:	tcl-devel >= 8.4.0}
 Provides:	db = %{version}-%{release}
@@ -235,17 +238,24 @@ Ten pakiet zawiera narzędzia do obsługi baz Berkeley DB z linii
 poleceń.
 
 %prep
-%setup -q -n db-%{version}
+%setup -q -n db-%{ver}
+# official patches
+%patchset_patch 1 %{patchlevel}
 
-%if !%{with nptl}
+%if %{without nptl}
 sed -i -e 's,AM_PTHREADS_SHARED("POSIX/.*,:,' dist/aclocal/mutex.ac
 %endif
+
+sed -i -e '/AC_PROG_LIBTOOL/aLT_OUTPUT' dist/configure.ac
 
 %build
 cd dist
 cp -f /usr/share/aclocal/libtool.m4 aclocal/libtool.ac
+cp -f /usr/share/aclocal/ltoptions.m4 aclocal/ltoptions.ac
+cp -f /usr/share/aclocal/ltsugar.m4 aclocal/ltsugar.ac
+cp -f /usr/share/aclocal/ltversion.m4 aclocal/ltversion.ac
 cp -f /usr/share/automake/config.sub .
-cp -f /usr/share/libtool/ltmain.sh .
+cp -f /usr/share/libtool/config/ltmain.sh .
 sh s_config
 cd ..
 
