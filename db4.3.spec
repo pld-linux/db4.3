@@ -285,6 +285,7 @@ cp -f /usr/share/libtool/config/ltmain.sh .
 sh s_config
 cd ..
 
+%if %{with static_libs}
 cp -a build_unix build_unix.static
 
 cd build_unix.static
@@ -302,15 +303,16 @@ export CC CXX CFLAGS CXXFLAGS LDFLAGS
 	--enable-static \
 	--enable-rpc \
 	--%{?with_pmutex:en}%{!?with_pmutex:dis}able-posixmutexes \
-	--enable-cxx \
-	%{!?with_static_libs:--disable-static}
+	--enable-cxx
 
 # (temporarily?) disabled because of compilation errors:
 #	--enable-dump185 \
 
 %{__make} library_build
+cd ..
+%endif
 
-cd ../build_unix
+cd build_unix
 
 ../dist/%configure \
 	--prefix=%{_prefix} \
@@ -323,8 +325,7 @@ cd ../build_unix
 	%{?with_tcl:--with-tcl=/usr/lib} \
 	%{?with_java:--enable-java} \
 	--disable-static \
-	--enable-shared \
-	%{!?with_static_libs:--disable-static}
+	--enable-shared
 
 %{__make} library_build \
 	TCFLAGS='-I$(builddir) -I%{_includedir}' \
@@ -338,10 +339,12 @@ install -d $RPM_BUILD_ROOT{%{_includedir},%{_libdir},%{_bindir}}
 install -d $RPM_BUILD_ROOT%{_javadir}
 %endif
 
+%if %{with static_libs}
 %{__make} -C build_unix.static library_install \
 	DESTDIR=$RPM_BUILD_ROOT \
 	docdir=%{_docdir}/db-%{version}-docs \
 	includedir=%{_includedir}
+%endif
 
 %{__make} -C build_unix library_install \
 	DESTDIR=$RPM_BUILD_ROOT \
