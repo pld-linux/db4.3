@@ -39,7 +39,7 @@ Obsoletes:	db4
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %if %{without default_db}
-%define		_includedir	%{_prefix}/include/db4.2
+%define		_includedir	%{_prefix}/include/db4.3
 %endif
 
 %description
