@@ -280,6 +280,7 @@ cp -f /usr/share/aclocal/libtool.m4 aclocal/libtool.ac
 cp -f /usr/share/aclocal/ltoptions.m4 aclocal/ltoptions.ac
 cp -f /usr/share/aclocal/ltsugar.m4 aclocal/ltsugar.ac
 cp -f /usr/share/aclocal/ltversion.m4 aclocal/ltversion.ac
+cp -f /usr/share/aclocal/lt~obsolete.m4 aclocal/lt~obsolete.ac
 cp -f /usr/share/automake/config.sub .
 cp -f /usr/share/libtool/config/ltmain.sh .
 sh s_config
