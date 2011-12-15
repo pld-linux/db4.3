@@ -2,7 +2,7 @@
 # Conditional build:
 %bcond_without	java		# don't build Java library
 %bcond_without	tcl		# don't build Tcl bindings
-%bcond_with	pmutex		# use POSIX mutexes (only process-private with linuxthreads)
+%bcond_with	pmutex		# use process-shared POSIX mutexes (not available with linuxthreads)
 %bcond_without	nptl		# don't use process-shared POSIX mutexes (NPTL provides full interface)
 %bcond_without	static_libs	# don't build static libraries
 %bcond_with	default_db	# use this db as default system db
@@ -61,6 +61,7 @@ Group:		Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 %if %{with default_db}
 Provides:	db-devel = %{version}-%{release}
+Obsoletes:	db-devel
 Obsoletes:	db3-devel
 Obsoletes:	db4-devel
 %endif
@@ -94,6 +95,7 @@ Group:		Development/Libraries
 Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
 %if %{with default_db}
 Provides:	db-static = %{version}-%{release}
+Obsoletes:	db-static
 Obsoletes:	db3-static
 Obsoletes:	db4-static
 %endif
@@ -143,6 +145,7 @@ Requires:	%{name}-cxx = %{epoch}:%{version}-%{release}
 Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
 %if %{with default_db}
 Provides:	db-cxx-devel = %{version}-%{release}
+Obsoletes:	db-cxx-devel
 %endif
 Conflicts:	db-devel < 4.1.25-3
 
@@ -159,6 +162,7 @@ Group:		Development/Libraries
 Requires:	%{name}-cxx-devel = %{epoch}:%{version}-%{release}
 %if %{with default_db}
 Provides:	db-cxx-static = %{version}-%{release}
+Obsoletes:	db-cxx-static
 %endif
 Conflicts:	db-static < 4.2.50-1
 
@@ -175,6 +179,7 @@ Group:		Libraries
 Requires:	jpackage-utils
 %if %{with default_db}
 Provides:	db-java = %{version}-%{release}
+Obsoletes:	db-java
 %endif
 
 %description java
@@ -190,6 +195,7 @@ Group:		Development/Languages/Java
 Requires:	%{name}-java = %{epoch}:%{version}-%{release}
 %if %{with default_db}
 Provides:	db-java-devel = %{version}-%{release}
+Obsoletes:	db-java-devel
 %endif
 Conflicts:	db-devel < 4.1.25-3
 
@@ -222,6 +228,7 @@ Group:		Development/Languages/Tcl
 Requires:	%{name}-tcl = %{epoch}:%{version}-%{release}
 %if %{with default_db}
 Provides:	db-tcl-devel = %{version}-%{release}
+Obsoletes:	db-tcl-devel
 %endif
 Conflicts:	db-devel < 4.1.25-3
 
